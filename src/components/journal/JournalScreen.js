@@ -1,9 +1,15 @@
-import React from 'react'
+import React from 'react';
+import Sidebar from './Sidebar';
 
-export const JournalScreen = () => {
+const JournalScreen = () => {
   return (
-    <div>
-      <h2>Journal</h2>
+    <div className="journal__main-content">
+      <Sidebar />
+      <main>
+        <h1>Main content</h1>
+      </main>
     </div>
-  )
-}
+  );
+};
+
+export default JournalScreen;
