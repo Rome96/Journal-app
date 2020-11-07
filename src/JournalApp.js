@@ -1,8 +1,12 @@
-import React from 'react'
-import { AppRouter } from './routers/AppRouter'
+import React from 'react';
+import { Provider } from 'react-redux';
+import { store } from './redux/store/store';
+import { AppRouter } from './routers/AppRouter';
 
 const JournalApp = () => {
-  return <AppRouter />
-}
+  return <Provider store={store}>
+    <AppRouter />
+  </Provider>
+};
 
-export default JournalApp
+export default JournalApp;
