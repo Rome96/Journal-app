@@ -4,8 +4,8 @@ import JournalEntries from './JournalEntries';
 const Sidebar = () => {
   return (
     <aside className="journal__sidebar">
-      <div className="journal__sidebar-navbar">
-        <h3 className="mt-5">
+      <div className="journal__sidebar-navbar mt-5">
+        <h3>
           <i className="fa fa-moon"></i>
           <span> Turiano!!</span>
         </h3>
