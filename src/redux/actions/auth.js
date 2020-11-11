@@ -1,4 +1,5 @@
 import { types } from '../types/types';
+import { firebase, googleAuthProvider } from '../../firebase/firebase-config';
 
 const startLoginEmailPassword = (email, password) => {
   return (dispatch) => {
@@ -10,14 +11,22 @@ const startLoginEmailPassword = (email, password) => {
       dispatch(login(payload))
     }, 3500);
   }
-  // return (dispatch) => {
-  //   const res = fetch("https://jsonplaceholder.typicode.com/posts")
-  //     .then((response) => response.json())
-  //     .then((json) => {
-  //       console.log('res =>', json)
-  //     });
-  //   return res
-  // }
+}
+
+const startGoogleLogin = () => {
+  return (dispatch) => {
+    firebase.auth().signInWithPopup(googleAuthProvider)
+      .then(({user}) => {
+        const payload = {
+          uid: user.uid,
+          displayName: user.displayName,
+        };
+        dispatch(login(payload))
+      })
+      .catch(e => {
+        console.log('Err Google Auth', e)
+      })
+  }
 }
 
 const login = payload => {
@@ -29,5 +38,6 @@ const login = payload => {
 
 export {
   login,
+  startGoogleLogin,
   startLoginEmailPassword
 };
