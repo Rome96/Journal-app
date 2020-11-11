@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm';
 import {
   startGoogleLogin,
-  satrtGithubLogin,
+  // satrtGithubLogin,
   startLoginEmailPassword,
 } from "../../redux/actions/auth";
 
