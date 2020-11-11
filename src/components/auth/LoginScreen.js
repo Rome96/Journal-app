@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm';
-import { login } from '../../redux/actions/auth';
+import { startLoginEmailPassword } from "../../redux/actions/auth";
 
 const LoginScreen = () => {
   const dispatch = useDispatch()
@@ -16,13 +16,7 @@ const LoginScreen = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    const payload = {
-      uid: "12345",
-      displayName: "tury",
-    };
-    
-    dispatch(login(payload))
+    dispatch(startLoginEmailPassword(email, password));
     reset();
   };
 
