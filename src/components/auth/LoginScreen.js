@@ -1,17 +1,16 @@
 import React from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
+import validator from 'validator';
 import { useForm } from '../../hooks/useForm';
-import {
-  startGoogleLogin,
-  // satrtGithubLogin,
-  startLoginEmailPassword,
-} from "../../redux/actions/auth";
+import { startGoogleLogin, startLoginEmailPassword } from "../../redux/actions/auth";
+import { setError } from '../../redux/actions/ui';
 
 const LoginScreen = () => {
   const dispatch = useDispatch()
+  const { msgError } = useSelector(state => state.ui)
 
-  const [formValues, handleInputChange, reset] = useForm({
+  const [formValues, handleInputChange] = useForm({
     email: "tury@gmail.com",
     password: "123456",
   });
@@ -20,20 +19,34 @@ const LoginScreen = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(startLoginEmailPassword(email, password));
-    reset();
+    if (isFromValid()) {
+      dispatch(startLoginEmailPassword(email, password));
+    }
   };
 
   const handleAuthGoogleLogin = () => {
     dispatch(startGoogleLogin());
   };
 
-  // const handleAuthGithubLogin = () => {
-  //   dispatch(satrtGithubLogin());
-  // }
+  const isFromValid = () => {
+    if (!validator.isEmail(email)) {
+      dispatch(setError('Email is not valid'));
+      return false;
+    } else if (password.length < 2) {
+      dispatch(setError('Password should be at least 6'));
+      return false;
+    };
+    return true;
+  };
+
   return <>
     <h3 className="auth__title mb-5">Login</h3>
     <form onSubmit={handleSubmit}>
+      {
+        msgError && <div className="auth__alert-error">
+          { msgError }
+        </div>
+      }
       <input
         type="text"
         name="email"
@@ -45,7 +58,7 @@ const LoginScreen = () => {
       />
       <input
         type="password"
-        name="passsword"
+        name="password"
         value={password}
         className="auth__input"
         placeholder="*****"
@@ -73,9 +86,6 @@ const LoginScreen = () => {
           </p>
         </div>
       </div>
-      {/* <div onClick={handleAuthGithubLogin}>
-        Gitgub
-      </div> */}
       <Link to="/auth/register" className="link">Create new account</Link>
     </form>
   </>
