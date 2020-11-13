@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom'
 import validator from 'validator';
 import { useForm } from '../../hooks/useForm';
 import { startGoogleLogin, startLoginEmailPassword } from "../../redux/actions/auth";
-import { setError } from '../../redux/actions/ui';
+import { removeError, setError } from '../../redux/actions/ui';
 
 const LoginScreen = () => {
   const dispatch = useDispatch()
   const { msgError } = useSelector(state => state.ui)
 
   const [formValues, handleInputChange] = useForm({
-    email: "tury@gmail.com",
+    email: "rome@rome.com",
     password: "123456",
   });
 
@@ -36,6 +36,7 @@ const LoginScreen = () => {
       dispatch(setError('Password should be at least 6'));
       return false;
     };
+    dispatch(removeError())
     return true;
   };
 
