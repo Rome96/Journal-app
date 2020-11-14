@@ -6,12 +6,8 @@ const startLoginEmailPassword = (email, password) => {
   return (dispatch) => {
     dispatch(startLoading())
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(({user}) => {
-        const payload = {
-          uid: user.uid,
-          displayName: user.displayName,
-        };
-        dispatch(login(payload));
+      .then(({user: {uid, displayName}}) => {
+        dispatch(login(uid, displayName));
         dispatch(finishLoading())
       })
       .catch(e => {
@@ -27,11 +23,7 @@ const RegisterWithEmailPasswordName = payload => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(async ({user}) => {
         await user.updateProfile({displayName: name})
-        const payload = {
-          uid: user.uid,
-          displayName: user.displayName,
-        };
-        dispatch(login(payload));
+        dispatch(login(user.uid, user.displayName));
       })
       .catch(e => {
         console.log(e)
@@ -43,12 +35,8 @@ const RegisterWithEmailPasswordName = payload => {
 const startGoogleLogin = () => {
   return (dispatch) => {
     firebase.auth().signInWithPopup(googleAuthProvider)
-      .then(({user}) => {
-        const payload = {
-          uid: user.uid,
-          displayName: user.displayName,
-        };
-        dispatch(login(payload))
+      .then(({user: {uid, displayName}}) => {
+        dispatch(login(uid, displayName))
       })
       .catch(e => {
         console.log('Err Google Auth', e)
@@ -56,10 +44,13 @@ const startGoogleLogin = () => {
   }
 }
 
-const login = payload => {
+const login = (uid, displayName) => {
   return {
     type: types.login,
-    payload
+    payload: {
+      uid,
+      displayName,
+    },
   };
 };
 
