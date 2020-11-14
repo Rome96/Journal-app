@@ -1,9 +1,10 @@
-import { setError } from './ui';
+import { finishLoading, setError, startLoading } from './ui';
 import { types } from '../types/types';
 import { firebase, googleAuthProvider } from "../../firebase/firebase-config";
 
 const startLoginEmailPassword = (email, password) => {
   return (dispatch) => {
+    dispatch(startLoading())
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(({user}) => {
         const payload = {
@@ -11,13 +12,11 @@ const startLoginEmailPassword = (email, password) => {
           displayName: user.displayName,
         };
         dispatch(login(payload));
+        dispatch(finishLoading())
       })
       .catch(e => {
         console.log(e)
         dispatch(setError(e.message));
-        // setTimeout(() => {
-        //   dispatch(removeError());
-        // }, 3500);
       });
   };
 };
@@ -37,9 +36,6 @@ const RegisterWithEmailPasswordName = payload => {
       .catch(e => {
         console.log(e)
         dispatch(setError(e.message));
-        // setTimeout(() => {
-        //   dispatch(removeError())
-        // }, 3500);
       })
   };
 };

@@ -1,14 +1,14 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'
 import validator from 'validator';
+import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm';
-import { startGoogleLogin, startLoginEmailPassword } from "../../redux/actions/auth";
+import { useDispatch, useSelector } from 'react-redux';
 import { removeError, setError } from '../../redux/actions/ui';
+import { startGoogleLogin, startLoginEmailPassword } from "../../redux/actions/auth";
 
 const LoginScreen = () => {
   const dispatch = useDispatch()
-  const { msgError } = useSelector(state => state.ui)
+  const { msgError, loading } = useSelector(state => state.ui)
 
   const [formValues, handleInputChange] = useForm({
     email: "rome@rome.com",
@@ -67,7 +67,7 @@ const LoginScreen = () => {
       />
       <button
         type="submit"
-        // disabled
+        disabled={loading}
         className="btn btn-primary mb-1 btn-block"
       >
         Login
