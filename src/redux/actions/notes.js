@@ -1,3 +1,4 @@
+import { types } from '../types/types';
 import { db } from "../../firebase/firebase-config";
 
 const startNewNote = () => {
@@ -8,10 +9,24 @@ const startNewNote = () => {
       body: '',
       date: new Date().getTime()
     };
-    const docRef = await db.collection(`${uid}/journal/notes`).add(newNote);
-    console.log(docRef)
+    try {     
+      const docRef = await db.collection(`${uid}/journal/notes`).add(newNote);
+      dispatch(activeNote(docRef.id, newNote))
+    } catch (error) {
+      console.log('Error Add New Note =>', error)
+    }
   };
 };
+
+const activeNote = (id, note) => {
+  return {
+    type: types.notesActive,
+    payload: {
+      id,
+      ...note
+    }
+  }
+}
 
 export {
   startNewNote
