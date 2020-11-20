@@ -25,9 +25,18 @@ const activeNote = (id, note) => {
       id,
       ...note
     }
-  }
-}
+  };
+};
+
+
+const setNotes = payload => {
+  return {
+    type: types.notesLoad,
+    payload
+  };
+};
 
 export {
+  setNotes,
   startNewNote
 }
