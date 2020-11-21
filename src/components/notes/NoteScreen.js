@@ -1,6 +1,7 @@
 import React, {useRef, useEffect} from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
+import { activeNote } from '../../redux/actions/notes';
 import NotesAppBar from './NotesAppBar';
 
 const NoteScreen = () => {
@@ -8,13 +9,18 @@ const NoteScreen = () => {
   const [formValues, handleInputChange, reset] = useForm(note);
   const { body, title } = formValues;
   const activeId = useRef(note.id);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (note.id !== activeId.current) {
       reset(note)
       activeId.current = note.id
     };
-  }, [note, reset])
+  }, [note, reset]);
+
+  useEffect(() => {
+    dispatch(activeNote(formValues.id, {...formValues}));
+  }, [formValues, dispatch]);
 
   return <div className="notes__main-content">
     <NotesAppBar />

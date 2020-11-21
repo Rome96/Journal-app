@@ -44,4 +44,28 @@ const setNotes = payload => {
   };
 };
 
-export { startLoadingNotes, startNewNote, activeNote };
+const saveNote = note => {
+  return async (getState) => {
+    const { uid } = getState().auth;
+
+    if (!note.url) {
+      delete note.url
+    }
+
+    const noteFireStore = {...note};
+    delete noteFireStore.id;
+
+    try {
+      await db.doc(`${uid}/journal/notes/${note.id}`).update(noteFireStore);
+    } catch (error) {
+      console.log(error)
+    }
+  };
+};
+
+export {
+  saveNote,
+  activeNote,
+  startNewNote,
+  startLoadingNotes,
+};
