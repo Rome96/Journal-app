@@ -1,7 +1,11 @@
 import React from 'react';
+import moment from 'moment';
 
-const JournalEntry = () => {
-  return <div className="journal__entry pointer">
+const JournalEntry = props => {
+  const { id, title, body, date, url } = props;
+  const noteDate = moment(date);
+
+return <div className="journal__entry pointer">
     <div
       // className="journal__entry-picture"
       // style={{
@@ -9,17 +13,18 @@ const JournalEntry = () => {
       //   backgroundImage:  'url(https://static2.abc.es/media/play/2018/08/22/homer-simpson-kJU--1248x698@abc.JPG'
       // }}
     >
-      <img src="https://static2.abc.es/media/play/2018/08/22/homer-simpson-kJU--1248x698@abc.JPG" alt="avatar" className="journal__entry-picture"/>
+      {
+        url && <img src={`${url}`} alt="avatar" className="journal__entry-picture"/>
+      }
     </div>
     <div className="journal__entry-body">
-      <p className="journal__entry-title"> Un nuevo día </p>
-      <p className="journal__entry-content">
-        Lorem ipsum, dolor sit amet consectetur.
-      </p>
+      <p className="journal__entry-title">{ title }</p>
+      <p className="journal__entry-content">{ body }</p>
     </div>
     <div className="journal__entry-date-box">
-      <span>Monday</span>
-      <h4>24</h4>
+      {/* mostrar el dia de la semana */}
+      <span>{ noteDate.format('dddd') }</span> 
+      <h4>{ noteDate.format('Do') }</h4>
     </div>
   </div>
 };
