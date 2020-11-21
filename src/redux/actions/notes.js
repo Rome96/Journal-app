@@ -44,7 +44,4 @@ const setNotes = payload => {
   };
 };
 
-export {
-  startLoadingNotes,
-  startNewNote
-}
+export { startLoadingNotes, startNewNote, activeNote };
