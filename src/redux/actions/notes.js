@@ -45,7 +45,7 @@ const setNotes = payload => {
 };
 
 const saveNote = note => {
-  return async (getState) => {
+  return async (dispatch, getState) => {
     const { uid } = getState().auth;
 
     if (!note.url) {
@@ -57,11 +57,26 @@ const saveNote = note => {
 
     try {
       await db.doc(`${uid}/journal/notes/${note.id}`).update(noteFireStore);
+      dispatch(refreshNote(note.id, noteFireStore));
     } catch (error) {
       console.log(error)
     }
   };
 };
+
+const refreshNote = (id, note) => {
+  return {
+    type: types.notesUpdated,
+    payload: {
+      id,
+      note: {
+        id,
+        ...note
+      }
+    }
+  }
+}
+
 
 export {
   saveNote,
