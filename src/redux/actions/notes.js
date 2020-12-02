@@ -1,6 +1,7 @@
 import { types } from '../types/types';
 import { db } from "../../firebase/firebase-config";
 import { loadNotes } from '../../helpers/loadNotes';
+import Swal from 'sweetalert2';
 
 const startNewNote = () => {
   return async (dispatch, getState) => { //el segundo parametro 'getSatate' me trae todos los datos del store
@@ -58,6 +59,7 @@ const saveNote = note => {
     try {
       await db.doc(`${uid}/journal/notes/${note.id}`).update(noteFireStore);
       dispatch(refreshNote(note.id, noteFireStore));
+      Swal.fire("Saved", note.title, 'success');
     } catch (error) {
       console.log(error)
     }
