@@ -2,6 +2,7 @@ import { types } from '../types/types';
 import { db } from "../../firebase/firebase-config";
 import { loadNotes } from '../../helpers/loadNotes';
 import Swal from 'sweetalert2';
+import { fileUpload } from '../../helpers/fileUpload';
 
 const startNewNote = () => {
   return async (dispatch, getState) => { //el segundo parametro 'getSatate' me trae todos los datos del store
@@ -77,12 +78,22 @@ const refreshNote = (id, note) => {
       }
     }
   }
-}
+};
 
+const startUploading = (file) => {
+  return async (dispatch, getState) => {
+
+    const { active:activeNotes } = getState().notes;
+    const fileUrl = await fileUpload(file)
+    console.log(fileUrl)
+    
+  }
+}
 
 export {
   saveNote,
   activeNote,
   startNewNote,
+  startUploading,
   startLoadingNotes,
 };
