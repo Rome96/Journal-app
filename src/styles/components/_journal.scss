@@ -47,11 +47,12 @@
   border-radius: 5px;
   color: $dark-grey;
   display: flex;
+  justify-content: space-between;
   margin-bottom: 10px;
 }
 
 .journal__entry-picture {
-  width: 70px;
+  width: 45px;
   height: 100%;
   object-fit: cover;
   display: block;
