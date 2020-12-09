@@ -45,7 +45,7 @@ const NoteScreen = () => {
         {
           note.url && <img
             alt="img"
-            src="https://sm.ign.com/t/ign_latam/screenshot/default/naruto4_st6s.1280.jpg"
+            src={note.url}
           />
         }
       </div>

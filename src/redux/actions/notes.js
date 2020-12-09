@@ -47,6 +47,7 @@ const setNotes = payload => {
 };
 
 const saveNote = note => {
+  console.log('NOTE =>', note)
   return async (dispatch, getState) => {
     const { uid } = getState().auth;
 
@@ -82,13 +83,23 @@ const refreshNote = (id, note) => {
 
 const startUploading = (file) => {
   return async (dispatch, getState) => {
+    const { active:noteActive } = getState().notes;
+    Swal.fire({
+      title: 'Uploading...',
+      text: 'Please wait...',
+      allowOutsideClick: false,
+      onBeforeOpen: () => {
+        Swal.showLoading();
+      }
+    });
 
-    const { active:activeNotes } = getState().notes;
-    const fileUrl = await fileUpload(file)
-    console.log(fileUrl)
-    
-  }
-}
+    const fileUrl = await fileUpload(file);
+    noteActive.url = fileUrl;
+    dispatch(saveNote(noteActive));
+
+    Swal.close();
+  };
+};
 
 export {
   saveNote,
