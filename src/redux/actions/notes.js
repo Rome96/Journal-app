@@ -14,7 +14,8 @@ const startNewNote = () => {
     };
     try {     
       const docRef = await db.collection(`${uid}/journal/notes`).add(newNote);
-      dispatch(activeNote(docRef.id, newNote))
+      dispatch(activeNote(docRef.id, newNote));
+      dispatch(addNewNote(docRef.id, newNote));
     } catch (error) {
       console.log('Error Add New Note =>', error)
     }
@@ -32,6 +33,16 @@ const activeNote = (id, note) => {
   };
 };
 
+const addNewNote = (id, note) => {
+  return {
+    type: types.notesAddNew,
+    payload: {
+      id,
+      ...note
+    }
+  }
+};
+
 const startLoadingNotes = uid => {
   return async (dispatch) => {
     const notes = await loadNotes(uid)
@@ -47,7 +58,6 @@ const setNotes = payload => {
 };
 
 const saveNote = note => {
-  console.log('NOTE =>', note)
   return async (dispatch, getState) => {
     const { uid } = getState().auth;
 
@@ -62,6 +72,7 @@ const saveNote = note => {
       await db.doc(`${uid}/journal/notes/${note.id}`).update(noteFireStore);
       dispatch(refreshNote(note.id, noteFireStore));
       Swal.fire("Saved", note.title, 'success');
+      // dispatch(addNewNote(note.id, noteFireStore));
     } catch (error) {
       console.log(error)
     }
