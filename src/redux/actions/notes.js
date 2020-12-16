@@ -101,10 +101,30 @@ const startUploading = (file) => {
   };
 };
 
+const startDeleting = id => {
+  return async (dispatch, getSatate) => {
+    try {
+      const { uid } = getSatate().auth
+      await db.doc(`${uid}/journal/notes/${id}`).delete();
+      dispatch(deleteNote(id));
+    } catch (error) {
+      console.log('Error al eliminar la nota =>', error)
+    };
+  };
+};
+
+const deleteNote = id => {
+  return {
+    type: types.notesDelete,
+    payload: id
+  };
+};
+
 export {
   saveNote,
   activeNote,
   startNewNote,
+  startDeleting,
   startUploading,
   startLoadingNotes,
 };
