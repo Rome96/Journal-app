@@ -120,6 +120,12 @@ const deleteNote = id => {
   };
 };
 
+const cleaningNotesLogout = () => {
+  return {
+    type: types.notesLogoutCleaning,
+  };
+}
+
 export {
   saveNote,
   activeNote,
@@ -127,4 +133,5 @@ export {
   startDeleting,
   startUploading,
   startLoadingNotes,
+  cleaningNotesLogout,
 };
