@@ -56,7 +56,10 @@ const RegisterScreen = () => {
 
   return <>
     <h3 className="auth__title mb-5">Register</h3>
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="animate__animated animate__fadeIn"
+    >
 
       {
         msgError && <div className="auth__alert-error">

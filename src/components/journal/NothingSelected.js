@@ -1,7 +1,7 @@
 import React from 'react';
 
 const NothingSelected = () => {
-  return <div className="nothing__main-content">
+  return <div className="nothing__main-content animate__animated animate__fadeInRight">
     <p>
       Select something <br/>
       pr create an entry!
